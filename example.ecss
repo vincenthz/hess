@@ -1,0 +1,30 @@
+#!/usr/bin/runhaskell -XExtendedDefaultRules
+import Hess.Main
+main = defaultMain defs
+
+color_hi  = Color 0xff 0xd8 0x00
+color_low = Color 0x58 0x70 0x58
+color_ot  = Color 0x58 0x74 0x98
+color_l   = Color 0xe8 0x68 0x50
+
+defs
+ -- generic type
+ = [All] @!> [ margin 0 0 0 0 ]
+ : [body] @!>
+	[ backgroundColor color_low
+	, padding 0 0 0 0 ]
+ : [h1,h2,h3] @!> [ textColor color_l ]
+ : [a] @!>
+	[ textDecoration "none"
+	, textColor color_hi ]
+ : [a] ?> [Hover] @> [ textColor color_l ]
+ -- specifics class/header
+ : [ID "header"] @!> [ backgroundColor color_ot ]
+ : [ID "mainmenu"] @!>
+	[ display     "block"
+	, marginRight Auto
+	, clear       "both"
+	, "font-variant" =# "small-caps"
+	]
+ : [ID "mainmenu" `Within` ul ] @!> [ "display" =# "inline" ]
+ : []

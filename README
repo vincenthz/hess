@@ -1,0 +1,37 @@
+Hess is a haskell library to generate css data out of descriptive structure.
+It give the ability to typecheck your CSS and use the power of variables, functions, etc
+to define shortcut to your CSS.
+
+= define a CSS chunk
+
+a CSS chunk is a selector, pseudo classes and then a list of properties.
+
+	body { margin-top: 15px }
+
+is written in Hess structure
+
+	[body] @!> [ marginTop: (15,Px) ]
+
+more examples:
+
+HESS: [a] ?> [Hover] @> [ textColor (Color 0 0 0) ]
+CSS:   a   : hover      { color : #000 }
+
+HESS: [ID "header"] @!> { display "block" }
+CSS:  #header           { display: block }
+
+HESS: [ID "header" `Child` h1] @!> { fontSize "120%" }
+CSS:  #header      >       h1      { font-size: 120% }
+
+= standalone program
+
+by add 3 lines to the header of your declarative style sheet, you can make it
+the file a standalone program.
+
+	#!/usr/bin/runhaskell -XExtendedDefaultRules
+	import Hess.Main
+	main = defaultMain [definitions...]
+
+= TODO
+
+- make a quasiquoter to shorten the declarative file.
